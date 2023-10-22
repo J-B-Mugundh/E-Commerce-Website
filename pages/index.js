@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable @next/next/no-img-element */
 // import {useEffect, useState} from "react";
 // import Product from "../components/Product";
@@ -50,26 +51,43 @@
 //     },
 //   };
 // }
+import { useEffect, useState } from "react";
+import Product from "../components/Product";
 
 export default function Home(){
+  const [productsInfo, setProductsInfo] = useState([]);
+  useEffect(() => {
+      fetch('/api/products')
+      .then((res) => res.json())
+      .then(json => setProductsInfo(json))
+
+  }, []);
+
+  // console.log({productsInfo})
+
+  // arry of categories
+  const categoriesNames = [...new Set(productsInfo.map(p => p.category))];
+  console.log({categoriesNames}) 
+
+  
   return(
     <div className="p-5">
       <div>
-        <h2 className="text-2xl">Mobiles</h2>
+      {categoriesNames.map(categoryName => (
+        <div key={categoryName}>
+          <h2 className="text-2xl capitalize">{categoryName}</h2>
+          
+            <div className="flex">
+            {productsInfo.filter(p => p.category === categoryName).map(productInfo => (
+              <div key={productInfo._id} className="px-5">
+              <Product {...productInfo} />
+              </div>            
+            ))}
+            </div>
+        </div>
+      ))}
         <div className="py-4">
-          <div className="w-64">
-            <div className="bg-blue-100 p-5 rounded-xl">
-              <img src="/products/iphone.png" alt=""></img>
-            </div>
-            <div className="mt-1">
-              <h3 className="font-bold text-lg">Iphone 14 Pro</h3>
-            </div>
-            <p className="text-sm mt-1 leading-4" >The iPhone 14 Pro and Pro Max feature a Super Retina XDR OLED display with a typical maximum brightness of 1,000 nits. However, it can go all the way up to 1,600 nits while watching HDR videos, and 2,000 nits outdoors. The display has a refresh rate of 120 Hz and uses LTPO technology.</p>
-            <div className="flex mt-1">
-              <div className="text-2xl font-bold grow">$899</div>
-              <button className="bg-emerald-400 text-white py-1 px-3 rounded-xl">+</button>
-            </div>
-          </div>
+          
         </div> 
       </div>
     </div>

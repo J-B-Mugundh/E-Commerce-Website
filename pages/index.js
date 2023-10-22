@@ -66,7 +66,7 @@ export default function Home(){
             </div>
             <p className="text-sm mt-1 leading-4" >The iPhone 14 Pro and Pro Max feature a Super Retina XDR OLED display with a typical maximum brightness of 1,000 nits. However, it can go all the way up to 1,600 nits while watching HDR videos, and 2,000 nits outdoors. The display has a refresh rate of 120 Hz and uses LTPO technology.</p>
             <div className="flex mt-1">
-              <div className="text-2xl font-bold">$899</div>
+              <div className="text-2xl font-bold grow">$899</div>
               <button className="bg-emerald-400 text-white py-1 px-3 rounded-xl">+</button>
             </div>
           </div>

@@ -31,12 +31,13 @@ import {useContext, useEffect, useState} from "react";
 import {ProductsContext} from "./ProductsContext";
 
 export default function Layout({ children }) {
+  // making a layout so that the body and footer can be one
   return (
     <div>
-      <div className="p-5">
+      <div className="p-5">  {/* main div */}
         {children}
       </div>
-      <Footer />
+      <Footer /> {/* Footer */}
     </div>
   );
 }

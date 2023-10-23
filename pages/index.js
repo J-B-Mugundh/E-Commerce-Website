@@ -55,6 +55,8 @@ import { useEffect, useState } from "react";
 import Product from "../components/Product";
 import {initMongoose} from "../lib/mongoose";
 import {findAllProducts} from "./api/products";
+import Footer from "../components/Footer";
+import Layout from "../components/Layout";
 
 export default function Home({products}){
   // const [productsInfo, setProductsInfo] = useState([]);
@@ -81,7 +83,7 @@ export default function Home({products}){
     // }
 
   return(
-    <div className="p-5">
+    <Layout>
     <input type="text" value={phrase} onChange={e => setPhrase(e.target.value)} placeholder="Search for products..." className="bg-gray-100 w-full py-2 px-4 rounded-xl"></input>
     
       <div>
@@ -101,12 +103,13 @@ export default function Home({products}){
           </div>
         )}  
         </div>
-      ))} 
+      ))}
       </div>
-    </div>
+    </Layout>
   )
 }
 
+// When the page is rendered on the client-side, it will receive the `products` prop from the server.
 export async function getServerSideProps() {
   await initMongoose();
   const products = await findAllProducts();

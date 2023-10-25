@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import {useContext} from "react";
 import {ProductsContext} from "./ProductsContext";
 

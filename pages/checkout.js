@@ -142,10 +142,15 @@ export default function CheckoutPage(){
   const total = subtotal + deliveryPrice;
   return (
     <Layout>
-      {!productsInfos.length && (
-        <div>No products in your shopping cart</div>
-      )}
-      {productsInfos.length && productsInfos.map(productInfo => (
+    <form action="/api/checkout" method="POST">
+    {!productsInfos.length && (
+      <div>no products in your shopping cart</div>
+    )}
+    
+      {productsInfos.length && productsInfos.map(productInfo => {
+        const amount = selectedProducts.filter(id => id === productInfo._id).length;
+        if(amount === 0) return;
+        return(
         <div className="flex mb-5" key={productInfo}>
           {/* for product image */}
           <div className="bg-gray-100 p-3 rounded-xl shrink-0">
@@ -167,12 +172,12 @@ export default function CheckoutPage(){
             </div>
           </div>
         </div>
-      ))}
+      )})}
       <div className="mt-4">
-        <input value={address} onChange={e => setAddress(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="Street address, number"></input>
-        <input value={city} onChange={e => setCity(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="City and postal code"></input>
-        <input value={name} onChange={e => setName(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="Your name"></input>
-        <input value={email} onChange={e => setEmail(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="email" placeholder="Email address"></input>
+        <input name="address" value={address} onChange={e => setAddress(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="Street address, number"></input>
+        <input name="city" value={city} onChange={e => setCity(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="City and postal code"></input>
+        <input name="name" value={name} onChange={e => setName(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" placeholder="Your name"></input>
+        <input name="email" value={email} onChange={e => setEmail(e.target.value)} className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="email" placeholder="Email address"></input>
       </div>
       <div className="mt-4">
         <div className="flex my-3">
@@ -190,7 +195,11 @@ export default function CheckoutPage(){
           <h3 className="font-bold">${total}</h3>
         </div>
       </div>
-      <button className="bg-red-500 px-5 py-2 font-bold text-white w-full my-4 shadow-red-300 shadow-lg rounded-lg">Pay ${total}</button>
+      
+        <input type="hidden" name="products" value={selectedProducts.join(',')}></input>
+        <button className="bg-red-500 px-5 py-2 font-bold text-white w-full my-4 shadow-red-300 shadow-lg rounded-lg">Pay ${total}</button>
+      </form>
+      
     </Layout>
   );  
 }
